@@ -42,8 +42,8 @@ public class ApiServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 
                 //deserialize xml from post data
-                //String requestXml = StringUtils.stringFromInputStream(request.getInputStream());
-                Object requestObject = null;//xStream.fromXML(requestXml);
+                String requestXml = StringUtils.stringFromInputStream(request.getInputStream());
+                Object requestObject = xStream.fromXML(requestXml);
 
                 //new action by it's name
                 IServerAction serverAction = ActionActivator.getAction(actionName);

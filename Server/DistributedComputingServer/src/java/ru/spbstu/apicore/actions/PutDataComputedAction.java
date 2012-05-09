@@ -7,7 +7,7 @@ package ru.spbstu.apicore.actions;
 public class PutDataComputedAction implements IServerAction{
 
     @Override
-    public Object process(long id, Object request) throws ServerException {
+    public Object process(Long id, Object request) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
