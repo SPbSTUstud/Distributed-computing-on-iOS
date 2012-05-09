@@ -1,15 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ru.spbstu.webapi;
+package ru.spbstu.servlets;
 
+import com.thoughtworks.xstream.XStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ru.spbstu.apicore.ActionActivator;
+import ru.spbstu.apicore.actions.IServerAction;
+import ru.spbstu.utils.StringUtils;
 
 /**
  *
@@ -32,18 +32,35 @@ public class ApiServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-            /*
-             * TODO output your page here. You may use following sample code.
-             */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ApiServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ApiServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
+
+            try {
+                XStream xStream = new XStream();
+                
+                //todo: id to cookie
+                //read parameters from get data
+                String actionName = request.getParameter("action");
+                String id = request.getParameter("id");
+                
+                //deserialize xml from post data
+                //String requestXml = StringUtils.stringFromInputStream(request.getInputStream());
+                Object requestObject = null;//xStream.fromXML(requestXml);
+
+                //new action by it's name
+                IServerAction serverAction = ActionActivator.getAction(actionName);
+
+                //processing request               
+                Object responseObject = serverAction.process(Long.parseLong(id), requestObject);
+                String responseXml = xStream.toXML(responseObject);
+                
+                //sending xml to client
+                out.print(responseXml);
+            } catch (Exception ex) {
+               //all is bad =((( 
+               //internal error to client
+               response.sendError(500);
+            }
+
+        } finally {
             out.close();
         }
     }
