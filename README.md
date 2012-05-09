@@ -1,4 +1,9 @@
-Distributed-computing-on-iOS
-============================
+Система распределенных вычислений на основе iOS устройств
 
-Distributed computing on iOS (Math.PI)
+Состоит из двух частей:
+JavaEE сервер для Glassfish 
+iOS клиент 
+
+Сторонние используемые библиотеки:
+XStream (http://xstream.codehaus.org/)
+
