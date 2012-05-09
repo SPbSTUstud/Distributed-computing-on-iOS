@@ -1,0 +1,13 @@
+#Xcode
+.f
+.DS_Store
+project.xcworkspace/
+xcuserdata/
+
+#Netbeans
+/Server/DistributedComputingServer/nbproject/private/
+/Server/DistributedComputingServer/DistributedComputingServer-war/nbproject/private/
+/Server/DistributedComputingServer/DistributedComputingServer-war/build/
+/Server/DistributedComputingServer/build/
+/Server/DistributedComputingServer/DistributedComputingServer-war/dist/
+/Server/DistributedComputingServer/dist/
