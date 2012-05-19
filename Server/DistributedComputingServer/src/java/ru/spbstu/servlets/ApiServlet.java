@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ru.spbstu.apicore.ActionActivator;
 import ru.spbstu.apicore.actions.IServerAction;
+import ru.spbstu.apicore.requests.Register;
+import ru.spbstu.apicore.responses.RegisterResponse;
 import ru.spbstu.utils.StringUtils;
 
 /**
@@ -34,7 +36,10 @@ public class ApiServlet extends HttpServlet {
         try {
 
             try {
+                //todo: xstream to special class hodler
                 XStream xStream = new XStream();
+                xStream.processAnnotations(Register.class);
+                xStream.processAnnotations(RegisterResponse.class);
                 
                 //todo: id to cookie
                 //read parameters from get data
