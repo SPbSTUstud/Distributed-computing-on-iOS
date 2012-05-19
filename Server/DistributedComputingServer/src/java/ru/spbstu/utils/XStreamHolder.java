@@ -1,7 +1,7 @@
 package ru.spbstu.utils;
 
 import com.thoughtworks.xstream.XStream;
-import ru.spbstu.apicore.requests.Register;
+import ru.spbstu.apicore.requests.RegisterRequest;
 import ru.spbstu.apicore.responses.RegisterResponse;
 
 /**
@@ -14,7 +14,7 @@ public class XStreamHolder {
 
     static {
         xStream = new XStream();
-        xStream.processAnnotations(Register.class);
+        xStream.processAnnotations(RegisterRequest.class);
         xStream.processAnnotations(RegisterResponse.class);
     }
     

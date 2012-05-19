@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ru.spbstu.apicore.ActionActivator;
 import ru.spbstu.apicore.actions.IServerAction;
-import ru.spbstu.apicore.requests.Register;
-import ru.spbstu.apicore.responses.RegisterResponse;
 import ru.spbstu.utils.StringUtils;
 import ru.spbstu.utils.XStreamHolder;
 

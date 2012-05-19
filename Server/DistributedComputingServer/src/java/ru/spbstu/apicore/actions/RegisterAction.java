@@ -1,6 +1,6 @@
 package ru.spbstu.apicore.actions;
 
-import ru.spbstu.apicore.requests.Register;
+import ru.spbstu.apicore.requests.RegisterRequest;
 import ru.spbstu.apicore.responses.RegisterResponse;
 import ru.spbstu.clients.Client;
 import ru.spbstu.clients.ClientsHolder;
@@ -14,7 +14,7 @@ public class RegisterAction implements IServerAction {
     @Override
     public Object process(Long id, Object request) throws ServerException {
         
-        Register register = (Register)request;
+        RegisterRequest register = (RegisterRequest)request;
         
         Client client = new Client();
         
