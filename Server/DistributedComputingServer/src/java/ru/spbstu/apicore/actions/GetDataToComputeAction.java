@@ -9,6 +9,5 @@ public class GetDataToComputeAction implements IServerAction {
     @Override
     public Object process(Long id, Object request) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
+    }    
 }
