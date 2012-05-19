@@ -12,6 +12,7 @@ import ru.spbstu.apicore.actions.IServerAction;
 import ru.spbstu.apicore.requests.Register;
 import ru.spbstu.apicore.responses.RegisterResponse;
 import ru.spbstu.utils.StringUtils;
+import ru.spbstu.utils.XStreamHolder;
 
 /**
  *
@@ -36,10 +37,7 @@ public class ApiServlet extends HttpServlet {
         try {
 
             try {
-                //todo: xstream to special class hodler
-                XStream xStream = new XStream();
-                xStream.processAnnotations(Register.class);
-                xStream.processAnnotations(RegisterResponse.class);
+                XStream xStream = XStreamHolder.getXStream();
                 
                 //todo: id to cookie
                 //read parameters from get data
