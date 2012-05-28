@@ -22,6 +22,8 @@
 		E9A164371568312300ECE6D9 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9A164361568312300ECE6D9 /* second@2x.png */; };
 		E9EA972915740FE500BB1BAA /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA972815740FE500BB1BAA /* Communicator.m */; };
 		E9EA972C1574100200BB1BAA /* Solver.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA972B1574100200BB1BAA /* Solver.m */; };
+		E9EA97301574340100BB1BAA /* RegisterResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA972F1574340100BB1BAA /* RegisterResponse.m */; };
+		E9EA9733157434B000BB1BAA /* GetDataToComputeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA9732157434B000BB1BAA /* GetDataToComputeResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,10 @@
 		E9EA972815740FE500BB1BAA /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		E9EA972A1574100200BB1BAA /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solver.h; sourceTree = "<group>"; };
 		E9EA972B1574100200BB1BAA /* Solver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Solver.m; sourceTree = "<group>"; };
+		E9EA972E1574340100BB1BAA /* RegisterResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterResponse.h; sourceTree = "<group>"; };
+		E9EA972F1574340100BB1BAA /* RegisterResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterResponse.m; sourceTree = "<group>"; };
+		E9EA9731157434B000BB1BAA /* GetDataToComputeResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetDataToComputeResponse.h; sourceTree = "<group>"; };
+		E9EA9732157434B000BB1BAA /* GetDataToComputeResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDataToComputeResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +100,8 @@
 		E9A1641B1568312300ECE6D9 /* DistributedComputing */ = {
 			isa = PBXGroup;
 			children = (
-				E9EA972515740F8100BB1BAA /* Classes */,
+				E9EA972D157433C600BB1BAA /* Responses */,
+				E9EA972515740F8100BB1BAA /* Logic */,
 				E9A164241568312300ECE6D9 /* AppDelegate.h */,
 				E9A164251568312300ECE6D9 /* AppDelegate.m */,
 				E9A164271568312300ECE6D9 /* MainStoryboard.storyboard */,
@@ -122,7 +129,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E9EA972515740F8100BB1BAA /* Classes */ = {
+		E9EA972515740F8100BB1BAA /* Logic */ = {
 			isa = PBXGroup;
 			children = (
 				E9EA972715740FE500BB1BAA /* Communicator.h */,
@@ -130,7 +137,18 @@
 				E9EA972A1574100200BB1BAA /* Solver.h */,
 				E9EA972B1574100200BB1BAA /* Solver.m */,
 			);
-			name = Classes;
+			name = Logic;
+			sourceTree = "<group>";
+		};
+		E9EA972D157433C600BB1BAA /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				E9EA972E1574340100BB1BAA /* RegisterResponse.h */,
+				E9EA972F1574340100BB1BAA /* RegisterResponse.m */,
+				E9EA9731157434B000BB1BAA /* GetDataToComputeResponse.h */,
+				E9EA9732157434B000BB1BAA /* GetDataToComputeResponse.m */,
+			);
+			name = Responses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +223,8 @@
 				E9A164331568312300ECE6D9 /* SecondViewController.m in Sources */,
 				E9EA972915740FE500BB1BAA /* Communicator.m in Sources */,
 				E9EA972C1574100200BB1BAA /* Solver.m in Sources */,
+				E9EA97301574340100BB1BAA /* RegisterResponse.m in Sources */,
+				E9EA9733157434B000BB1BAA /* GetDataToComputeResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
