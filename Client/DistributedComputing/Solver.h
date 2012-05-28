@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol SolverDelegate;
+
+
 @interface Solver : NSObject
-- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to up:(NSNumber **)up down:(NSNumber **)down;
+
+@property (nonatomic) id<SolverDelegate> delegate;
+
+- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "FirstViewController.h"
+#import "Solver.h"
 
 
 @interface FirstViewController ()
@@ -62,8 +63,19 @@
     [txtDescription setText:[[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding]];
 }
 
+-(void)solverDidProgressWithPercent:(float)percent{
+
+}
+-(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down{
+
+}
+
 - (IBAction)Register:(id)sender
 {
+    Solver *solver = [[Solver alloc] init];
+    solver.delegate = self;
+    [solver calculateFrom:[NSNumber numberWithInt:100] to:[NSNumber numberWithInt:130]];
+
     NSString *urlTemplate = @"http://%@:%@/DistributedComputingServer/API?action=%@&id=%@";
     NSString *serverName = @"127.0.0.1";
     NSString *serverPort = @"8080";
