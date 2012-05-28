@@ -14,7 +14,7 @@ public class RegisterAction implements IServerAction {
     @Override
     public Object process(Long id, Object request) throws ServerException {
         
-        RegisterRequest register = (RegisterRequest)request;
+        //RegisterRequest register = (RegisterRequest)request;
         
         Client client = new Client();
         

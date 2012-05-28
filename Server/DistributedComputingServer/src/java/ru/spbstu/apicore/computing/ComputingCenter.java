@@ -4,7 +4,7 @@ package ru.spbstu.apicore.computing;
  *
  * @author igofed
  */
-public class ComputingCenterTest implements IComputingCenter{
+public class ComputingCenter implements IComputingCenter{
 
     @Override
     public ComputingTask getNewTask(Long clientId) {

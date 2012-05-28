@@ -9,7 +9,7 @@ public class ComputingCenterHolder {
     private static IComputingCenter computingCenter;
     
     static{
-        computingCenter = null;
+        computingCenter = new ComputingCenter();
     }
     
     public static IComputingCenter getComputingCenter(){
