@@ -2,6 +2,8 @@ package ru.spbstu.apicore.computing;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import ru.spbstu.clients.ClientsHolder;
 
 /**
@@ -29,7 +31,7 @@ public class ComputingCenter implements IComputingCenter {
         int taskFrom = -1;
         int taskTo = -1;
         if(newTaskFrom < maxToCompute){
-            taskFrom = newTaskFrom;
+            taskFrom = newTaskFrom == 0 ? 1 : newTaskFrom;
             taskTo = newTaskFrom + coputingStep - 1;
         }
         task.setFrom(taskFrom);
@@ -56,7 +58,7 @@ public class ComputingCenter implements IComputingCenter {
     @Override
     public BigDecimal getCurrentResult() {
        BigDecimal pi = new BigDecimal(totalResult.getUp());
-       pi.divide(new BigDecimal(totalResult.getDown()));
+       pi = pi.divide(new BigDecimal(totalResult.getDown()), 1000, RoundingMode.HALF_UP);
         
        return pi;
     }
