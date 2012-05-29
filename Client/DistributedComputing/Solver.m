@@ -46,10 +46,10 @@
         up = [up decimalNumberByMultiplyingBy:curUp];
         down = [down decimalNumberByMultiplyingBy:curDown];
 
-        [self performSelector:processing withObject: [NSNumber numberWithFloat:((float)(n - iFrom))/total]];
+        [delegate solverDidProgressWithPercent: [NSNumber numberWithFloat:((float)(n - iFrom))/total]];
     }
 
-    [self performSelector:finish withObject:up withObject:down];
+    [delegate solverDidFinishWithUp: up down:down];
 }
 
 @end
