@@ -90,7 +90,8 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
 - (NSString *)userIdFromSettings
 {
     NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-    return [defaults stringForKey:userIdKey];
+    //return [defaults stringForKey:userIdKey];
+    return [[defaults stringForKey:userIdKey] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)saveUserId:(NSString *)userId
@@ -175,7 +176,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     }
 }
 
-- (void)solverDidProgressWithPercent:(float)percent
+- (void)solverDidProgressWithPercent:(NSNumber*)percent
 {
 
 }
