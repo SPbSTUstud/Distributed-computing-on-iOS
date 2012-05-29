@@ -7,12 +7,13 @@
 //
 
 #import "Solver.h"
+#import "SolverDelegate.h"
 
 @implementation Solver
 
 //Вместо нормальных коллюеков в делегатах вот такая вот херня
 //todo: поправить херню
-- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to processing:(SEL)processing finish:(SEL)finish
+- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to delegate:(id<SolverDelegate>) delegate
 {
     int iFrom = [from intValue];
     int iTo = [to intValue];

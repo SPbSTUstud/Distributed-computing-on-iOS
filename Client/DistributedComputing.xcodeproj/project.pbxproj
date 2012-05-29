@@ -55,6 +55,7 @@
 		E9EA972F1574340100BB1BAA /* RegisterResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterResponse.m; sourceTree = "<group>"; };
 		E9EA9731157434B000BB1BAA /* GetDataToComputeResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetDataToComputeResponse.h; sourceTree = "<group>"; };
 		E9EA9732157434B000BB1BAA /* GetDataToComputeResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDataToComputeResponse.m; sourceTree = "<group>"; };
+		E9EA9733157434B000BB1BAB /* SolverDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolverDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +134,7 @@
 		E9EA972515740F8100BB1BAA /* Logic */ = {
 			isa = PBXGroup;
 			children = (
+				E9EA9733157434B000BB1BAB /* SolverDelegate.h */,
 				E9EA972715740FE500BB1BAA /* Communicator.h */,
 				E9EA972815740FE500BB1BAA /* Communicator.m */,
 				E9EA972A1574100200BB1BAA /* Solver.h */,
