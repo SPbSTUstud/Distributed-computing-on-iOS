@@ -7,5 +7,5 @@
 
 @protocol SolverDelegate
 - (void)solverDidProgressWithPercent:(NSNumber*)percent;
-- (void)solverDidFinishWithUp:(NSNumber *)up down:(NSNumber *)down;
+- (void)solverDidFinishWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down;
 @end

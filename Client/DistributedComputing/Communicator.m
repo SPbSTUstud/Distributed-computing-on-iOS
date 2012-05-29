@@ -158,7 +158,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
     return result;
 }
 
-- (void)sendComputedWithUp:(NSNumber *)up andDown:(NSNumber *)down
+- (void)sendComputedWithUp:(NSDecimalNumber *)up andDown:(NSDecimalNumber *)down
 {
     NSString *userId = [self userIdFromSettings];
 
@@ -189,7 +189,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 
 }
 
-- (void)solverDidFinishWithUp:(NSNumber *)up down:(NSNumber *)down {
+- (void)solverDidFinishWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down {
     [self sendComputedWithUp:up andDown:down];
 }
 
