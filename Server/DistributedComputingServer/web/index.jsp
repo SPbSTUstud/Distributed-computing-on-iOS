@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Distributing server</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Welcome to distributed computing server for iOS devices</h1>
     </body>
 </html>

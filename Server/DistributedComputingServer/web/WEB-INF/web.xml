@@ -4,9 +4,17 @@
         <servlet-name>ApiServlet</servlet-name>
         <servlet-class>ru.spbstu.servlets.ApiServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Pi</servlet-name>
+        <jsp-file>/Pi.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ApiServlet</servlet-name>
         <url-pattern>/API</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pi</servlet-name>
+        <url-pattern>/pi</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
