@@ -2,7 +2,7 @@
 //  Solver.h
 //  DistributedComputing
 //
-//  Created by Tatiana Petrova on 28.05.12.
+//  Created by Igor Fedchun on 28.05.12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 

@@ -18,7 +18,7 @@
 @property (nonatomic) NSMutableData *receivedData;
 
 @property (nonatomic) UITextView *outputTextView;
-@property (nonatomic) Solver *solver;
+@property (nonatomic, strong) Solver *solver;
 
 @property (nonatomic) RegisterResponse *registerResponse;
 @property (nonatomic) GetDataToComputeResponse *getDataResponse;
@@ -208,14 +208,19 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     NSNumber *to = [formatter numberFromString:[_getDataResponse to]];
     _getDataResponse = nil;
     
-    // 3. calculate
-    //[_solver calculateFrom:<#(NSNumber *)#> to:<#(NSNumber *)#> up:<#(NSNumber *__autoreleasing *)#> down:<#(NSNumber *__autoreleasing *)#>
-    
-    // 4. show result
-    
-    // 5. send result
+    //3. calculate
+    self.solver = [[Solver alloc] init];
+    self.solver.delegate = self;
+    [self.solver calculateFrom:from to:to];
+}
+
+-(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down{
     
 }
+-(void)solverDidProgressWithPercent:(float)percent{
+    
+}
+
 
 - (void)stop
 {

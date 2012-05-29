@@ -72,10 +72,6 @@
 
 - (IBAction)Register:(id)sender
 {
-    Solver *solver = [[Solver alloc] init];
-    solver.delegate = self;
-    [solver calculateFrom:[NSNumber numberWithInt:100] to:[NSNumber numberWithInt:130]];
-
     NSString *urlTemplate = @"http://%@:%@/DistributedComputingServer/API?action=%@&id=%@";
     NSString *serverName = @"127.0.0.1";
     NSString *serverPort = @"8080";

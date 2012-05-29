@@ -22,9 +22,9 @@
 		E9A164371568312300ECE6D9 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9A164361568312300ECE6D9 /* second@2x.png */; };
 		E9EA972915740FE500BB1BAA /* Communicator.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA972815740FE500BB1BAA /* Communicator.m */; };
 		E9EA972C1574100200BB1BAA /* Solver.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA972B1574100200BB1BAA /* Solver.m */; };
+		E9EA972C1574100200BB1BAC /* SolverDelegate.m in Sources */ = {isa = PBXBuildFile; };
 		E9EA97301574340100BB1BAA /* RegisterResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA972F1574340100BB1BAA /* RegisterResponse.m */; };
 		E9EA9733157434B000BB1BAA /* GetDataToComputeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EA9732157434B000BB1BAA /* GetDataToComputeResponse.m */; };
-		E9EA972C1574100200BB1BAC /* SolverDelegate.m in Sources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,11 +51,11 @@
 		E9EA972815740FE500BB1BAA /* Communicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Communicator.m; sourceTree = "<group>"; };
 		E9EA972A1574100200BB1BAA /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solver.h; sourceTree = "<group>"; };
 		E9EA972B1574100200BB1BAA /* Solver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Solver.m; sourceTree = "<group>"; };
+		E9EA972C1574100200BB1BAE /* SolverDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolverDelegate.h; sourceTree = "<group>"; };
 		E9EA972E1574340100BB1BAA /* RegisterResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterResponse.h; sourceTree = "<group>"; };
 		E9EA972F1574340100BB1BAA /* RegisterResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterResponse.m; sourceTree = "<group>"; };
 		E9EA9731157434B000BB1BAA /* GetDataToComputeResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetDataToComputeResponse.h; sourceTree = "<group>"; };
 		E9EA9732157434B000BB1BAA /* GetDataToComputeResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetDataToComputeResponse.m; sourceTree = "<group>"; };
-		E9EA972C1574100200BB1BAE /* SolverDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolverDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

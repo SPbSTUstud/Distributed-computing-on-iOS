@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SolverDelegate.h"
 
-@interface Communicator : NSObject
+@interface Communicator : NSObject <SolverDelegate>
 
 // Constants (просто огонь!!!11адинад)
 FOUNDATION_EXPORT NSString *const urlTemplate;
