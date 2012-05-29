@@ -219,7 +219,9 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
     NSXMLParser *getDataParser = [[NSXMLParser alloc] initWithData:[self dataForCompute]];
     [getDataParser setDelegate:self];
     BOOL getDataSuccess = [getDataParser parse];
-    
+
+    [self showAlertWithTitle:@"getData response" andMessage:[[NSString alloc] initWithData:[self dataForCompute] encoding:NSUTF8StringEncoding]];
+
     if (!getDataSuccess) {
         [self showAlertWithTitle:@"XML parsing failed: getData" andMessage:[[NSString alloc] initWithData:[self dataForCompute] encoding:NSUTF8StringEncoding]];
         return;
