@@ -13,6 +13,6 @@
 
 @interface Solver : NSObject
 
-- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to processing:(SEL)processing finish:(SEL)finish;
+- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to delegate:(id<SolverDelegate>) delegate;
 
 @end

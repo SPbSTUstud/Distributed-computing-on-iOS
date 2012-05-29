@@ -176,8 +176,11 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     }
 }
 
-- (void)solverDidProgressWithPercent:(NSNumber*)percent
-{
+- (void)solverDidProgressWithPercent:(NSNumber*)percent {
+
+}
+
+- (void)solverDidFinishWithUp:(NSNumber *)up down:(NSNumber *)down {
 
 }
 
@@ -226,7 +229,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     
     //3. calculate
     self.solver = [[Solver alloc] init];
-    [self.solver calculateFrom:from to:to processing:@selector(solverDidProgressWithPercent:) finish:@selector(sendComputedWithUp::)];
+    [self.solver calculateFrom:from to:to delegate:self];
 }
 
 - (void)stop

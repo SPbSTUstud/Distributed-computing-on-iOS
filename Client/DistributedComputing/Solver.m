@@ -7,12 +7,13 @@
 //
 
 #import "Solver.h"
+#import "SolverDelegate.h"
 
 @implementation Solver
 
 //Вместо нормальных коллюеков в делегатах вот такая вот херня
 //todo: поправить херню
-- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to processing:(SEL)processing finish:(SEL)finish
+- (void)calculateFrom:(NSNumber *)from to:(NSNumber *)to delegate:(id<SolverDelegate>) delegate
 {
     int iFrom = [from intValue];
     int iTo = [to intValue];
@@ -45,10 +46,10 @@
         up = [up decimalNumberByMultiplyingBy:curUp];
         down = [down decimalNumberByMultiplyingBy:curDown];
 
-        [self performSelector:processing withObject: [NSNumber numberWithFloat:((float)(n - iFrom))/total]];
+        [delegate solverDidProgressWithPercent: [NSNumber numberWithFloat:((float)(n - iFrom))/total]];
     }
 
-    [self performSelector:finish withObject:up withObject:down];
+    [delegate solverDidFinishWithUp: up down:down];
 }
 
 @end
