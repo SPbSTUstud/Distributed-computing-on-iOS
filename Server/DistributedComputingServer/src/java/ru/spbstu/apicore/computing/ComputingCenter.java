@@ -1,5 +1,6 @@
 package ru.spbstu.apicore.computing;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import ru.spbstu.clients.ClientsHolder;
 
@@ -50,5 +51,13 @@ public class ComputingCenter implements IComputingCenter {
         totalResult.setDown(down);
         
         ClientsHolder.self().updateCurrentTask(clientId, null);
+    }
+
+    @Override
+    public BigDecimal getCurrentResult() {
+       BigDecimal pi = new BigDecimal(totalResult.getUp());
+       pi.divide(new BigDecimal(totalResult.getDown()));
+        
+       return pi;
     }
 }
