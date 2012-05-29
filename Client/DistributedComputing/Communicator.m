@@ -194,7 +194,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
         BOOL registrationSuccess = [registrationParser parse];
         
         if (!registrationSuccess) {
-            [self showAlertWithTitle:@"Hmm" andMessage:@"XML parsing failed: registration"];
+            [self showAlertWithTitle:@"XML parsing failed: register" andMessage:[[NSString alloc] initWithData:[self dataForRegister] encoding:NSUTF8StringEncoding]];
             return;
         }
         
@@ -208,7 +208,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     BOOL getDataSuccess = [getDataParser parse];
     
     if (!getDataSuccess) {
-        [self showAlertWithTitle:@"Hmm" andMessage:@"XML parsing failed: getData"];
+        [self showAlertWithTitle:@"XML parsing failed: getData" andMessage:[[NSString alloc] initWithData:[self dataForCompute] encoding:NSUTF8StringEncoding]];
         return;
     }
     
