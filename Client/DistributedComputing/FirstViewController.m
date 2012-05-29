@@ -7,18 +7,19 @@
 //
 
 #import "FirstViewController.h"
+#import "Communicator.h"
 #import "Solver.h"
 
 
 @interface FirstViewController ()
-@property (nonatomic) NSMutableData *receivedData;
+@property (nonatomic, strong) Communicator *communicator;
 @end
 
 @implementation FirstViewController
 @synthesize lblHeader;
 @synthesize txtDescription;
 @synthesize btnRegister;
-@synthesize receivedData = _receivedData;
+@synthesize communicator = _communicator;
 
 - (void)viewDidLoad
 {
@@ -40,58 +41,37 @@
     return NO;
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+-(void)solverDidProgressWithPercent:(float)percent
 {
-    [_receivedData setLength:0];
+
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+-(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down
 {
-    [_receivedData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection
-        didFailWithError:(NSError *)error
-{
-    [txtDescription setText:[NSString stringWithFormat:@"Connection failed! Error - %@ %@",
-                                      [error localizedDescription],
-                                      [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]]];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    [txtDescription setText:[[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding]];
-}
-
--(void)solverDidProgressWithPercent:(float)percent{
-
-}
--(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down{
 
 }
 
 - (IBAction)Register:(id)sender
 {
-    NSString *urlTemplate = @"http://%@:%@/DistributedComputingServer/API?action=%@&id=%@";
-    NSString *serverName = @"127.0.0.1";
-    NSString *serverPort = @"8080";
+    UIApplication *application = [UIApplication sharedApplication]; //Get the shared application instance
     
-    NSString *xmlRegisterRequest = @"<RegisterRequest/>";
-    //NSString *xmlGetDataRequest = @"<GetDataToComputeRequest/>";
-    //NSString *xmlPutDataRequest = @"<PutDataComputedRequest/>";
+    __block UIBackgroundTaskIdentifier background_task; //Create a task object
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:urlTemplate,serverName,serverPort,@"Register",@"0"]];
+    background_task = [application beginBackgroundTaskWithExpirationHandler: ^ {
+        [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
+        background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
+        
+        //System will be shutting down the app at any point in time now
+    }];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:[xmlRegisterRequest dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request
-                                                                  delegate:self];
-    
-    if (connection) {
-        _receivedData = [[NSMutableData alloc] init];
-    }
+    //Background tasks require you to use asyncrous tasks
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //Perform your tasks that your application requires
+        [self setCommunicator:[[Communicator alloc] init]];
+        [[self communicator] goWithOutputIn:txtDescription];
+        
+        [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
+        background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
+    });
 }
 @end

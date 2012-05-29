@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Communicator : NSObject
+@interface Communicator : NSObject <NSXMLParserDelegate>
 
 // Constants (просто огонь!!!11адинад)
 FOUNDATION_EXPORT NSString *const urlTemplate;

@@ -25,6 +25,8 @@
 
 @property (nonatomic) NSMutableString *currentElementValue;
 
+@property (nonatomic, strong) UIAlertView *alert;
+
 // Private methods
 - (NSURL *)urlForAction:(NSString *)action andUserId:(NSString *)userId;
 - (NSMutableURLRequest *)requestForUrl:(NSURL *)url andBody:(NSString *)body;
@@ -35,7 +37,7 @@
 
 - (NSData *)dataForRegister;
 - (NSData *)dataForCompute;
-- (NSData *)sendComputedWithUp:(NSNumber *)up andDown:(NSNumber *)down;
+- (void)sendComputedWithUp:(NSNumber *)up andDown:(NSNumber *)down;
 
 @end
 
@@ -68,6 +70,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
 @synthesize getDataResponse = _getDataResponse;
 
 @synthesize currentElementValue = _currentElementValue;
+@synthesize alert;
 
 // Implement private methods
 - (NSURL *)urlForAction:(NSString *)action andUserId:(NSString *)userId
@@ -99,12 +102,18 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
 
 - (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                              message:message
-                                              delegate:nil
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![self alert]) {
+            self.alert = [[UIAlertView alloc] init];
+            [[self alert] setDelegate:nil];
+            [[self alert] addButtonWithTitle:@"Ok"];
+            [[self alert] setCancelButtonIndex:0];
+        }
+    
+        [[self alert] setTitle:title];
+        [[self alert] setMessage:message];
+        [[self alert] show];
+    });
 }
 
 - (NSData *)dataForRegister
@@ -146,13 +155,13 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     return result;
 }
 
-- (NSData *)sendComputedWithUp:(NSNumber *)up andDown:(NSNumber *)down
+- (void)sendComputedWithUp:(NSNumber *)up andDown:(NSNumber *)down
 {
     NSString *userId = [self userIdFromSettings];
     
     if (!userId) {
         [self showAlertWithTitle:@"Hmm" andMessage:@"Bad user ID"];
-        return nil;
+        return;
     }
     
     NSURL *url = [self urlForAction:actionPutData andUserId:userId];
@@ -163,16 +172,11 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     
     if (!result) {
         [self showAlertWithTitle:@"Sending of data failed" andMessage:[error description]];
-        return nil;
     }
-    
-    return result;
 }
 
--(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down{
-
-}
--(void)solverDidProgressWithPercent:(float)percent{
+- (void)solverDidProgressWithPercent:(float)percent
+{
 
 }
 
@@ -180,13 +184,13 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
 - (void)goWithOutputIn:(UITextView *)textView
 {
     // Output for our spam
-    _outputTextView = textView;
+    [self setOutputTextView:textView];
     
     // 1. register if needed
     NSString *userId = [self userIdFromSettings];
     if (!userId) {
         NSXMLParser *registrationParser = [[NSXMLParser alloc] initWithData:[self dataForRegister]];
-        [registrationParser delete:self];
+        [registrationParser setDelegate:self];
         BOOL registrationSuccess = [registrationParser parse];
         
         if (!registrationSuccess) {
@@ -194,13 +198,13 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
             return;
         }
         
-        [self saveUserId:[_registerResponse id]];
-        _registerResponse = nil;
+        [self saveUserId:[[self registerResponse] id]];
+        [self setRegisterResponse:nil];
     }
     
     // 2. get data
     NSXMLParser *getDataParser = [[NSXMLParser alloc] initWithData:[self dataForCompute]];
-    [getDataParser delete:self];
+    [getDataParser setDelegate:self];
     BOOL getDataSuccess = [getDataParser parse];
     
     if (!getDataSuccess) {
@@ -211,24 +215,24 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
-    NSNumber *from = [formatter numberFromString:[_getDataResponse from]];
-    NSNumber *to = [formatter numberFromString:[_getDataResponse to]];
-    _getDataResponse = nil;
+    NSNumber *from = [formatter numberFromString:[[self getDataResponse] from]];
+    NSNumber *to = [formatter numberFromString:[[self getDataResponse] to]];
+    [self setGetDataResponse:nil];
+    
+    if ([from intValue] == -1 && [to intValue] == -1) {
+        [self showAlertWithTitle:@"Ok" andMessage:@"Nothing to calculate"];
+    }
     
     //3. calculate
     self.solver = [[Solver alloc] init];
-    [self.solver calculateFrom:from to:to processing:@selector(solverDidProgressWithPercent:) finish:@selector(solverDidFinishCalculateWithUp::)];
+    [self.solver calculateFrom:from to:to processing:@selector(solverDidProgressWithPercent:) finish:@selector(sendComputedWithUp::)];
 }
-
-
-
 
 - (void)stop
 {
     // wtf?
 }
 
-// TODO стринги захардкожены!!! БЛЕЯТЬ!!!
 // Parser delegate methods
 -(void)parser:(NSXMLParser *)parser
 didStartElement:(NSString *)elementName 
@@ -237,20 +241,20 @@ didStartElement:(NSString *)elementName
      attributes:(NSDictionary *)attributeDict
 {
     if ([elementName isEqualToString:@"RegisterResponse"]) {
-        _registerResponse = [[RegisterResponse alloc] init];
+        [self setRegisterResponse:[[RegisterResponse alloc] init]];
     }
     else if ([elementName isEqualToString:@"GetDataToComputeResponse"]) {
-        _getDataResponse = [[GetDataToComputeResponse alloc] init];
+        [self setGetDataResponse:[[GetDataToComputeResponse alloc] init]];
     }
 }
 
 -(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-    if (!_currentElementValue) {
-        _currentElementValue = [[NSMutableString alloc] initWithString:string];
+    if (![self currentElementValue]) {
+        [self setCurrentElementValue:[[NSMutableString alloc] initWithString:string]];
     }
     else {
-        [_currentElementValue appendString:string];
+        [[self currentElementValue] appendString:string];
     }
 }
 
@@ -263,13 +267,13 @@ didStartElement:(NSString *)elementName
         return;
     }
     else if ([elementName isEqualToString:@"id"]) {
-        [_registerResponse setValue:_currentElementValue forKey:elementName];
+        [[self registerResponse] setValue:[self currentElementValue] forKey:elementName];
     }
     else {
-        [_getDataResponse setValue:_currentElementValue forKey:elementName];
+        [[self getDataResponse] setValue:[self currentElementValue] forKey:elementName];
     }
     
-    _currentElementValue = nil;
+    [self setCurrentElementValue:nil];
 }
 
 @end
