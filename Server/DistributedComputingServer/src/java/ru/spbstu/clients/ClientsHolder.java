@@ -1,6 +1,7 @@
 package ru.spbstu.clients;
 
 import java.util.HashMap;
+import ru.spbstu.apicore.computing.ComputingTask;
 import ru.spbstu.clients.clientidgenerators.IClientIdGenerator;
 import ru.spbstu.clients.clientidgenerators.SequenceIdGenerator;
 
@@ -27,11 +28,11 @@ public class ClientsHolder {
         clientIdGenerator = new SequenceIdGenerator();
     }
 
-    public boolean isClientRegistered(Long id) {
+    public synchronized boolean isClientRegistered(Long id) {
         return clients.containsKey(id);
     }
 
-    public Long RegisterClient(Client client) {
+    public synchronized Long registerClient(Client client) {
         Long id = clientIdGenerator.generateNewId();
 
         clients.put(id, client);
@@ -39,7 +40,12 @@ public class ClientsHolder {
         return id;
     }
 
-    public void DeregisterClient(Long id) {
+    public synchronized void deregisterClient(Long id) {
         clients.remove(id);
+    }
+    
+    public synchronized void updateCurrentTask(Long clientId, ComputingTask task){
+        Client client = clients.get(clientId);
+        client.setCurrentTask(task);      
     }
 }

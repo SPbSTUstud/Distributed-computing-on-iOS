@@ -18,7 +18,7 @@ public class RegisterAction implements IServerAction {
         
         Client client = new Client();
         
-        Long newId = ClientsHolder.self().RegisterClient(client);
+        Long newId = ClientsHolder.self().registerClient(client);
         
         RegisterResponse response = new RegisterResponse();
         response.setId(newId);
