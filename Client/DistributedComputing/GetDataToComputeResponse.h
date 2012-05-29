@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface GetDataToComputeResponse : NSObject
-@property (nonatomic) NSString *from;
-@property (nonatomic) NSString *to;
+@property (nonatomic, strong) NSString *from;
+@property (nonatomic, strong) NSString *to;
 @end

@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface RegisterResponse : NSObject
-@property (nonatomic) NSString *id;
+@property (nonatomic, strong) NSString *id;
 @end

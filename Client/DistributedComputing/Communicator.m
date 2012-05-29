@@ -147,7 +147,9 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     NSURLResponse *response;
     NSError *error = nil;
     NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
+
+    //[self showAlertWithTitle:@"Receiving of data ..." andMessage:[[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding]];
+
     if (!result) {
         [self showAlertWithTitle:@"Receiving of data failed" andMessage:[error description]];
         return nil;
@@ -159,21 +161,28 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
 - (void)sendComputedWithUp:(NSNumber *)up andDown:(NSNumber *)down
 {
     NSString *userId = [self userIdFromSettings];
-    
+
     if (!userId) {
         [self showAlertWithTitle:@"Hmm" andMessage:@"Bad user ID"];
         return;
     }
-    
+
     NSURL *url = [self urlForAction:actionPutData andUserId:userId];
     NSMutableURLRequest *request = [self requestForUrl:url andBody:xmlPutDataRequest];
     NSURLResponse *response;
     NSError *error = nil;
     NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
+
     if (!result) {
         [self showAlertWithTitle:@"Sending of data failed" andMessage:[error description]];
     }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *str = [[self outputTextView] text];
+        str = [str stringByAppendingString:@"\nup: "];
+        str = [str stringByAppendingString:[up description]];
+        [[self outputTextView] setText:str];
+    });
 }
 
 - (void)solverDidProgressWithPercent:(NSNumber*)percent {
@@ -181,7 +190,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
 }
 
 - (void)solverDidFinishWithUp:(NSNumber *)up down:(NSNumber *)down {
-
+    [self sendComputedWithUp:up andDown:down];
 }
 
 // Implement required methods
@@ -218,9 +227,12 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    
-    NSNumber *from = [formatter numberFromString:[[self getDataResponse] from]];
-    NSNumber *to = [formatter numberFromString:[[self getDataResponse] to]];
+
+    NSString *strFrom = [[[self getDataResponse] from] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *strTo = [[[self getDataResponse] to] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+    NSNumber *from = [formatter numberFromString:strFrom];
+    NSNumber *to = [formatter numberFromString:strTo];
     [self setGetDataResponse:nil];
     
     if ([from intValue] == -1 && [to intValue] == -1) {
