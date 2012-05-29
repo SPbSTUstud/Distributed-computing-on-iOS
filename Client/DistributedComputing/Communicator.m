@@ -169,6 +169,13 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     return result;
 }
 
+-(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down{
+
+}
+-(void)solverDidProgressWithPercent:(float)percent{
+
+}
+
 // Implement required methods
 - (void)goWithOutputIn:(UITextView *)textView
 {
@@ -210,16 +217,10 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     
     //3. calculate
     self.solver = [[Solver alloc] init];
-    self.solver.delegate = self;
-    [self.solver calculateFrom:from to:to];
+    [self.solver calculateFrom:from to:to processing:@selector(solverDidProgressWithPercent:) finish:@selector(solverDidFinishCalculateWithUp::)];
 }
 
--(void)solverDidFinishCalculateWithUp:(NSDecimalNumber *)up down:(NSDecimalNumber *)down{
-    
-}
--(void)solverDidProgressWithPercent:(float)percent{
-    
-}
+
 
 
 - (void)stop
