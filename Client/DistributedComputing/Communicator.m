@@ -14,16 +14,16 @@
 @interface Communicator()
 
 // Private properties
-@property (nonatomic) NSURLConnection *connection;
-@property (nonatomic) NSMutableData *receivedData;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *receivedData;
 
-@property (nonatomic) UITextView *outputTextView;
+@property (nonatomic, strong) UITextView *outputTextView;
 @property (nonatomic, strong) Solver *solver;
 
-@property (nonatomic) RegisterResponse *registerResponse;
-@property (nonatomic) GetDataToComputeResponse *getDataResponse;
+@property (nonatomic, strong) RegisterResponse *registerResponse;
+@property (nonatomic, strong) GetDataToComputeResponse *getDataResponse;
 
-@property (nonatomic) NSMutableString *currentElementValue;
+@property (nonatomic, strong) NSMutableString *currentElementValue;
 
 @property (nonatomic, strong) UIAlertView *alert;
 
