@@ -11,3 +11,6 @@ xcuserdata/
 /Server/DistributedComputingServer/build/
 /Server/DistributedComputingServer/DistributedComputingServer-war/dist/
 /Server/DistributedComputingServer/dist/
+
+#AppCode
+.idea/
