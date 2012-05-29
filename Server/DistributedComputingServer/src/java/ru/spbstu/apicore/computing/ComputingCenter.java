@@ -35,7 +35,7 @@ public class ComputingCenter implements IComputingCenter {
         task.setFrom(taskFrom);
         task.setTo(taskTo);
 
-        newTaskFrom += coputingStep + 1;
+        newTaskFrom += coputingStep;
         
         ClientsHolder.self().updateCurrentTask(clientId, task);
         
