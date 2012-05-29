@@ -57,7 +57,7 @@ NSString *const actionPutData = @"PutDataComputed";
 
 NSString *const xmlRegisterRequest = @"<RegisterRequest/>";
 NSString *const xmlGetDataRequest = @"<GetDataToComputeRequest/>";
-NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
+NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%@</down></PutDataComputedRequest>";
 
 // Synthesize private properties
 @synthesize connection = _connection;
@@ -168,7 +168,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest/>";
     }
 
     NSURL *url = [self urlForAction:actionPutData andUserId:userId];
-    NSMutableURLRequest *request = [self requestForUrl:url andBody:xmlPutDataRequest];
+    NSMutableURLRequest *request = [self requestForUrl:url andBody:[NSString stringWithFormat:xmlPutDataRequest,[up description],[down description]]];
     NSURLResponse *response;
     NSError *error = nil;
     NSData *result = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
