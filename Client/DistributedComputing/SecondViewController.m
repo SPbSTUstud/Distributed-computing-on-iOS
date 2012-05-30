@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [((AppDelegate *)UIApplication.sharedApplication.delegate) setServerAddress:[txtAddress text]]];
+    [((AppDelegate *)UIApplication.sharedApplication.delegate) setServerAddress:[txtAddress text]];
 }
 
 - (void)viewDidUnload

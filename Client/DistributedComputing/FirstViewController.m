@@ -9,7 +9,7 @@
 #import "FirstViewController.h"
 #import "Communicator.h"
 #import "Solver.h"
-
+#import "AppDelegate.h"
 
 @interface FirstViewController ()
 @property (nonatomic, strong) Communicator *communicator;
@@ -68,7 +68,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //Perform your tasks that your application requires
         [self setCommunicator:[[Communicator alloc] init]];
-        [[self communicator] goWithAddress:<#(NSString *)address#> andOutputIn:<#(UITextView *)textView#>];
+        [[self communicator] goWithAddress: ((AppDelegate *)UIApplication.sharedApplication.delegate).serverAddress andOutputIn:[self txtDescription]];
 
         [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
         background_task = UIBackgroundTaskInvalid; //Invalidate the background_task

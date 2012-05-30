@@ -213,12 +213,15 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
     // 1. register if needed
     NSString *userId = [self userIdFromSettings];
     if (!userId) {
-        NSXMLParser *registrationParser = [[NSXMLParser alloc] initWithData:[self dataForRegister]];
+        NSData *data = [self dataForRegister];
+        NSXMLParser *registrationParser = [[NSXMLParser alloc] initWithData:data];
         [registrationParser setDelegate:self];
         BOOL registrationSuccess = [registrationParser parse];
-        
+
+        [self showAlertWithTitle:@"register response" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+
         if (!registrationSuccess) {
-            [self showAlertWithTitle:@"XML parsing failed: register" andMessage:[[NSString alloc] initWithData:[self dataForRegister] encoding:NSUTF8StringEncoding]];
+            [self showAlertWithTitle:@"XML parsing failed: register" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
             self.needToStop = YES;
             return;
         }
