@@ -1,6 +1,5 @@
 package ru.spbstu.apicore.actions;
 
-import ru.spbstu.apicore.requests.RegisterRequest;
 import ru.spbstu.apicore.responses.RegisterResponse;
 import ru.spbstu.clients.Client;
 import ru.spbstu.clients.ClientsHolder;

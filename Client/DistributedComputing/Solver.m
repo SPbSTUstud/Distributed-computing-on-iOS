@@ -46,6 +46,8 @@
         up = [up decimalNumberByMultiplyingBy:curUp];
         down = [down decimalNumberByMultiplyingBy:curDown];
 
+        [NSThread sleepForTimeInterval:1.0];
+
         [delegate solverDidProgressWithPercent: [NSNumber numberWithFloat:((float)(n - iFrom))/total]];
     }
 

@@ -264,7 +264,6 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 
         //3. calculate
         self.solver = [[Solver alloc] init];
-        [NSThread sleepForTimeInterval:1.0];
         [self.solver calculateFrom:from to:to delegate:self];
     }
 }

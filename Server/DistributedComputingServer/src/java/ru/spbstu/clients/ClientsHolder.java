@@ -45,6 +45,10 @@ public class ClientsHolder {
     }
     
     public synchronized void updateCurrentTask(Long clientId, ComputingTask task){
+        //todo: remove hack
+        if(!clients.containsKey(clientId))
+            clients.put(clientId, new Client());
+        
         Client client = clients.get(clientId);
         client.setCurrentTask(task);      
     }
