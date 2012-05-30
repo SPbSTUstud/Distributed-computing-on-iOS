@@ -11,6 +11,7 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize serverAddress = _serverAddress;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *txtDescription;
 @property (weak, nonatomic) IBOutlet UIButton *btnRegister;
 - (IBAction)Register:(id)sender;
+- (IBAction)Stop:(id)sender;
 
 @end

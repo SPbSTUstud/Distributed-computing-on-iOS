@@ -68,10 +68,15 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //Perform your tasks that your application requires
         [self setCommunicator:[[Communicator alloc] init]];
-        [[self communicator] goWithOutputIn:txtDescription];
-        
+        [[self communicator] goWithAddress:<#(NSString *)address#> andOutputIn:<#(UITextView *)textView#>];
+
         [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
         background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
     });
+}
+
+- (IBAction)Stop:(id)sender
+{
+    [self.communicator stop];
 }
 @end

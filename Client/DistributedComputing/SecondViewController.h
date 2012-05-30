@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SecondViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextField *txtAddress;
+- (IBAction)Edited:(UITextField *)sender;
 
 @end

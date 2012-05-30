@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSMutableString *currentElementValue;
 
 @property (nonatomic, strong) UIAlertView *alert;
+@property (nonatomic) BOOL needToStop;
+@property (nonatomic, strong) NSString *serverAddress;
 
 // Private methods
 - (NSURL *)urlForAction:(NSString *)action andUserId:(NSString *)userId;
@@ -46,9 +48,7 @@
 @implementation Communicator
 
 // Define constants
-NSString *const urlTemplate = @"http://%@:%@/DistributedComputingServer/API?action=%@&id=%@";
-NSString *const serverName = @"127.0.0.1";
-NSString *const serverPort = @"8080";
+NSString *const urlTemplate = @"API?action=%@&id=%@";
 
 NSString *const userIdKey = @"userId";
 NSString *const actionRegister = @"Register";
@@ -72,10 +72,15 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 @synthesize currentElementValue = _currentElementValue;
 @synthesize alert;
 
+@synthesize serverAddress = _serverAddress;
+@synthesize needToStop = _needToStop;
+
 // Implement private methods
 - (NSURL *)urlForAction:(NSString *)action andUserId:(NSString *)userId
 {
-    return [NSURL URLWithString:[NSString stringWithFormat:urlTemplate,serverName,serverPort,action,userId]];
+    NSString *first = [self serverAddress];
+    NSString *second = [NSString stringWithFormat:urlTemplate,action,userId];
+    return [NSURL URLWithString:[first stringByAppendingString:second]];
 }
 
 - (NSMutableURLRequest *)requestForUrl:(NSURL *)url andBody:(NSString *)body
@@ -127,6 +132,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
     
     if (!result) {
         [self showAlertWithTitle:@"Registration failed" andMessage:[error description]];
+        self.needToStop = YES;
         return nil;
     }
     
@@ -139,6 +145,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
     
     if (!userId) {
         [self showAlertWithTitle:@"Hmm" andMessage:@"Bad user ID"];
+        self.needToStop = YES;
         return nil;
     }
     
@@ -152,6 +159,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 
     if (!result) {
         [self showAlertWithTitle:@"Receiving of data failed" andMessage:[error description]];
+        self.needToStop = YES;
         return nil;
     }
     
@@ -164,6 +172,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 
     if (!userId) {
         [self showAlertWithTitle:@"Hmm" andMessage:@"Bad user ID"];
+        self.needToStop = YES;
         return;
     }
 
@@ -175,6 +184,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 
     if (!result) {
         [self showAlertWithTitle:@"Sending of data failed" andMessage:[error description]];
+        self.needToStop = YES;
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -194,10 +204,11 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
 }
 
 // Implement required methods
-- (void)goWithOutputIn:(UITextView *)textView
+- (void)goWithAddress:(NSString *)address andOutputIn:(UITextView *)textView;
 {
     // Output for our spam
     [self setOutputTextView:textView];
+    self.needToStop = NO;
     
     // 1. register if needed
     NSString *userId = [self userIdFromSettings];
@@ -208,47 +219,55 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
         
         if (!registrationSuccess) {
             [self showAlertWithTitle:@"XML parsing failed: register" andMessage:[[NSString alloc] initWithData:[self dataForRegister] encoding:NSUTF8StringEncoding]];
+            self.needToStop = YES;
             return;
         }
         
         [self saveUserId:[[self registerResponse] id]];
         [self setRegisterResponse:nil];
     }
-    
-    // 2. get data
-    NSXMLParser *getDataParser = [[NSXMLParser alloc] initWithData:[self dataForCompute]];
-    [getDataParser setDelegate:self];
-    BOOL getDataSuccess = [getDataParser parse];
 
-    [self showAlertWithTitle:@"getData response" andMessage:[[NSString alloc] initWithData:[self dataForCompute] encoding:NSUTF8StringEncoding]];
+    while (![self needToStop])
+    {
+        // 2. get data
+        NSData *data = [self dataForCompute];
+        NSXMLParser *getDataParser = [[NSXMLParser alloc] initWithData:data];
+        [getDataParser setDelegate:self];
+        BOOL getDataSuccess = [getDataParser parse];
 
-    if (!getDataSuccess) {
-        [self showAlertWithTitle:@"XML parsing failed: getData" andMessage:[[NSString alloc] initWithData:[self dataForCompute] encoding:NSUTF8StringEncoding]];
-        return;
+        //[self showAlertWithTitle:@"getData response" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+
+        if (!getDataSuccess) {
+            [self showAlertWithTitle:@"XML parsing failed: getData" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+            self.needToStop = YES;
+            return;
+        }
+
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+
+        NSString *strFrom = [[[self getDataResponse] from] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *strTo = [[[self getDataResponse] to] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+        NSNumber *from = [formatter numberFromString:strFrom];
+        NSNumber *to = [formatter numberFromString:strTo];
+        [self setGetDataResponse:nil];
+
+        if ([from intValue] == -1 && [to intValue] == -1) {
+            [self showAlertWithTitle:@"Ok" andMessage:@"Nothing to calculate"];
+            self.needToStop = YES;
+        }
+
+        //3. calculate
+        self.solver = [[Solver alloc] init];
+        [NSThread sleepForTimeInterval:1.0];
+        [self.solver calculateFrom:from to:to delegate:self];
     }
-    
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-
-    NSString *strFrom = [[[self getDataResponse] from] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *strTo = [[[self getDataResponse] to] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-    NSNumber *from = [formatter numberFromString:strFrom];
-    NSNumber *to = [formatter numberFromString:strTo];
-    [self setGetDataResponse:nil];
-    
-    if ([from intValue] == -1 && [to intValue] == -1) {
-        [self showAlertWithTitle:@"Ok" andMessage:@"Nothing to calculate"];
-    }
-    
-    //3. calculate
-    self.solver = [[Solver alloc] init];
-    [self.solver calculateFrom:from to:to delegate:self];
 }
 
 - (void)stop
 {
-    // wtf?
+    self.needToStop = YES;
 }
 
 // Parser delegate methods

@@ -13,15 +13,18 @@
 @end
 
 @implementation SecondViewController
+@synthesize txtAddress;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    [[ ((AppDelegate *)[[UIApplication sharedApplication] delegate]) setServerAddress:[txtAddress text]]];
 }
 
 - (void)viewDidUnload
 {
+    [self setTxtAddress:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -31,4 +34,8 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
+- (IBAction)Edited:(UITextField *)sender
+{
+    [[ ((AppDelegate *)[[UIApplication sharedApplication] delegate]) setServerAddress:[txtAddress text]]];
+}
 @end

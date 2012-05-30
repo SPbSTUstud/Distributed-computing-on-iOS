@@ -13,8 +13,6 @@
 
 // Constants (просто огонь!!!11адинад)
 FOUNDATION_EXPORT NSString *const urlTemplate;
-FOUNDATION_EXPORT NSString *const serverName;
-FOUNDATION_EXPORT NSString *const serverPort;
 
 FOUNDATION_EXPORT NSString *const userIdKey;
 FOUNDATION_EXPORT NSString *const actionRegister;
@@ -26,7 +24,7 @@ FOUNDATION_EXPORT NSString *const xmlGetDataRequest;
 FOUNDATION_EXPORT NSString *const xmlPutDataRequest;
 
 // Methods
-- (void)goWithOutputIn:(UITextView *)textView;
+- (void)goWithAddress:(NSString *)address andOutputIn:(UITextView *)textView;
 - (void)stop;
 
 @end
