@@ -209,6 +209,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
     // Output for our spam
     [self setOutputTextView:textView];
     self.needToStop = NO;
+    self.serverAddress = address;
     
     // 1. register if needed
     NSString *userId = [self userIdFromSettings];
@@ -218,7 +219,7 @@ NSString *const xmlPutDataRequest = @"<PutDataComputedRequest><up>%@</up><down>%
         [registrationParser setDelegate:self];
         BOOL registrationSuccess = [registrationParser parse];
 
-        [self showAlertWithTitle:@"register response" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+        //[self showAlertWithTitle:@"register response" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
 
         if (!registrationSuccess) {
             [self showAlertWithTitle:@"XML parsing failed: register" andMessage:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];

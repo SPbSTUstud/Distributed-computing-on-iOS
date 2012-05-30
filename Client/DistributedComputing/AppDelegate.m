@@ -16,6 +16,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.serverAddress = @"http://127.0.0.1:8080/DistributedComputingServer/";
     return YES;
 }
 							
