@@ -19,6 +19,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    txtAddress.delegate = self;
+
 	// Do any additional setup after loading the view, typically from a nib.
     [((AppDelegate *)UIApplication.sharedApplication.delegate) setServerAddress:[txtAddress text]];
 }
@@ -29,6 +32,12 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
