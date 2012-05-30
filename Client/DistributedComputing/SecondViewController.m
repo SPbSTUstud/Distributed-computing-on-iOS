@@ -7,6 +7,7 @@
 //
 
 #import "SecondViewController.h"
+#import "AppDelegate.h"
 
 @interface SecondViewController ()
 
@@ -19,7 +20,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [[ ((AppDelegate *)[[UIApplication sharedApplication] delegate]) setServerAddress:[txtAddress text]]];
+    [((AppDelegate *)UIApplication.sharedApplication.delegate) setServerAddress:[txtAddress text]]];
 }
 
 - (void)viewDidUnload
@@ -36,6 +37,6 @@
 
 - (IBAction)Edited:(UITextField *)sender
 {
-    [[ ((AppDelegate *)[[UIApplication sharedApplication] delegate]) setServerAddress:[txtAddress text]]];
+    [((AppDelegate *)UIApplication.sharedApplication.delegate) setServerAddress:[txtAddress text]];
 }
 @end
